@@ -1,30 +1,34 @@
-.App {
-  display: flex;
-}
+/*.App {*/
+/*  display: flex;*/
+/*}*/
 
-.main-container {
-  width: 90%;
-  height: 700px;
-  background: #2C2D30;
-  position: relative;
-  overflow: hidden;
-}
+/*.none {*/
+/*  display: none;*/
+/*}*/
 
-.sidebar {
-  width: 30%;
-}
+/*.main-container {*/
+/*  width: 90%;*/
+/*  height: 700px;*/
+/*  background: #2C2D30;*/
+/*  position: relative;*/
+/*  overflow: hidden;*/
+/*}*/
 
-.bg {
-  width: 100%;
-  position: absolute;
-  top: 50%;
-  right: 50%;
-  object-fit: cover;
-  animation:spin 15s linear infinite;
-}
+/*.sidebar {*/
+/*  width: 30%;*/
+/*}*/
 
-@keyframes spin {
-  100% {
-    transform:rotate(360deg);
-  }
-}
+/*.bg {*/
+/*  width: 100%;*/
+/*  position: absolute;*/
+/*  top: 50%;*/
+/*  right: 50%;*/
+/*  object-fit: cover;*/
+/*  animation: spin 15s linear infinite;*/
+/*}*/
+
+/*@keyframes spin {*/
+/*  100% {*/
+/*    transform: rotate(360deg);*/
+/*  }*/
+/*}*/

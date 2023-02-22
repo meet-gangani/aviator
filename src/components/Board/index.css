@@ -1,0 +1,27 @@
+.container {
+
+}
+
+.game-board {
+  position: relative;
+  margin: 8px 12px;
+  color: white;
+  background-color: #2C2D30;
+  height: 50vh;
+}
+
+.object-circle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  object-fit: none;
+  animation: spin 15s linear infinite;
+}
+
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
