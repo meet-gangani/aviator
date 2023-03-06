@@ -1,34 +1,36 @@
-/*.App {*/
-/*  display: flex;*/
-/*}*/
+.App {
+  display: flex;
+}
 
-/*.none {*/
-/*  display: none;*/
-/*}*/
+.none {
+  display: none;
+}
 
-/*.main-container {*/
-/*  width: 90%;*/
-/*  height: 700px;*/
-/*  background: #2C2D30;*/
-/*  position: relative;*/
-/*  overflow: hidden;*/
-/*}*/
+.main-container {
+  width: 90%;
+  height: 700px;
+  background: #2C2D30;
+  position: relative;
+  overflow: hidden;
+}
 
-/*.sidebar {*/
-/*  width: 30%;*/
-/*}*/
+.sidebar {
+  width: 30%;
+}
 
-/*.bg {*/
-/*  width: 100%;*/
-/*  position: absolute;*/
-/*  top: 50%;*/
-/*  right: 50%;*/
-/*  object-fit: cover;*/
-/*  animation: spin 15s linear infinite;*/
-/*}*/
+.bg {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  object-fit: cover;
+  animation: spin 15s linear infinite;
+}
 
-/*@keyframes spin {*/
-/*  100% {*/
-/*    transform: rotate(360deg);*/
-/*  }*/
-/*}*/
+@keyframes spin {
+  100% {
+    transform: rotate(360deg)
+    translate(-165px);
+
+  }
+}
