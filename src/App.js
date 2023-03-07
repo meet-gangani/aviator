@@ -1,35 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import { Area, AreaChart, CartesianGrid, Customized, ResponsiveContainer } from 'recharts'
+import Plan1 from './assets/images/plane-1.svg'
 
 function App() {
   const [ chartData, setChartData ] = useState([])
 
   // const updateChartData = () => {
-    // const newChartData = [...chartData];
     // newChartData.push(Math.random());
     // setChartData((prevValue) => [ ...prevValue, Math.random() ])
+  // const newChartData = [...chartData];
+  // setChartData((prevValue) => [ ...prevValue, Math.random() ])
   // }
 
   const MovingObject = ({ x, y, value }) => (
       <text x={x} y={y} textAnchor="middle">
         {value}
       </text>
-  );
+  )
 
-  const [movingObject, setMovingObject] = useState({
-    name: "Jun",
-    value: 0,
-  });
+  const [ movingObject, setMovingObject ] = useState({
+    name: 'Jun',
+    value: 0
+  })
 
   const handleMouseMove = (event) => {
-    const mouseX = event.chartX;
-    const xScale = event.activeLabelProps.scale.x;
-    const xValue = xScale.invert(mouseX);
+    const mouseX = event.chartX
+    const xScale = event.activeLabelProps.scale.x
+    const xValue = xScale.invert(mouseX)
     setMovingObject({
       name: xValue,
-      value: Math.floor(Math.random() * 100),
-    });
-  };
+      value: Math.floor(Math.random() * 100)
+    })
+  }
 
   useEffect(() => {
     const step = 0.1
@@ -41,7 +43,8 @@ function App() {
       }
     })
     setChartData(seq)
-    console.log(seq)
+    console.log('seq', seq)
+
     // const intervalId = setInterval(updateChartData, 1000);
     // console.log('intervalId', intervalId)
     // return () => clearInterval(intervalId);
@@ -54,10 +57,10 @@ function App() {
             y={20}
             width={40}
             height={40}
-            href="./assets/images/plane-1.svg"
+              src={Plan1}
         />
-    );
-  };
+    )
+  }
 
   return (
       // <img src="./assets/images/plane-1.svg" alt=""/>
@@ -71,7 +74,7 @@ function App() {
           {/*    <h1>Hello world</h1>*/}
           {/*  </div>*/}
           {/*</ForeignObject>*/}
-          <Customized component={renderImage} />
+          <Customized component={renderImage}/>
         </AreaChart>
       </ResponsiveContainer>
 
@@ -94,13 +97,13 @@ function App() {
       //   />
       // </LineChart>
 
-  // <LineChart width={500} height={300} data={chartData}>
-  //   <Line type="monotone" dataKey="value" stroke="#8884d8" />
-  //   <CartesianGrid stroke="#ccc" />
-  //   <XAxis dataKey="name" />
-  //   <YAxis />
-  //   <Customized component={renderImage} />
-  // </LineChart>
+      // <LineChart width={500} height={300} data={chartData}>
+      //   <Line type="monotone" dataKey="value" stroke="#8884d8" />
+      //   <CartesianGrid stroke="#ccc" />
+      //   <XAxis dataKey="name" />
+      //   <YAxis />
+      //   <Customized component={renderImage} />
+      // </LineChart>
   )
 }
 

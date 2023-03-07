@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "yarn && nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "mongodb": "^4.11.0",
+    "mongoose": "^6.6.5",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
