@@ -5,6 +5,8 @@ const { Server } = require('socket.io')
 
 class Socket {
   static initialize(server) {
+
+    let counter = 0
     const io = new Server(server, {
       cors: {
         origin: '*',
@@ -13,14 +15,13 @@ class Socket {
     })
 
     io.on('connection', (socket) => {
-      console.log('\x1B[31m user connected =>  :: ', socket.id)
+      console.log('\x1B[31m User connected =>  :: ', socket.id)
 
-      let counter = 0
       socket.on('join_room', (data) => {
         socket.join(data)
       })
 
-      setInterval(() => {
+      const intervalId = setInterval(() => {
         counter++
         console.log('counter', counter)
         socket.emit('counter', counter)
@@ -29,6 +30,11 @@ class Socket {
       socket.on('send_message', (data) => {
         console.log('send_message', data)
         socket.to(data.room).emit('receive_message', data)
+      })
+
+      socket.on('disconnect', () => {
+        console.log(`Client disconnected with socket ID ${socket.id}`)
+        clearInterval(intervalId)
       })
     })
   }
