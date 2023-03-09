@@ -1,119 +1,55 @@
-import React, { useEffect, useState } from 'react'
 import './App.css'
-import { Area, AreaChart, CartesianGrid, Customized, ResponsiveContainer } from 'recharts'
-import Plan1 from './assets/images/plane-1.svg'
+import React, { useEffect, useState } from 'react'
+import io from 'socket.io-client'
+
+const socket = io.connect('http://localhost:8080')
 
 function App() {
-  const [ chartData, setChartData ] = useState([])
+  // Messages States
+  const room = '45189564'
+  const [ counter, setCounter ] = useState(0)
+  const [ message, setMessage ] = useState('')
+  const [ messageReceived, setMessageReceived ] = useState([])
 
-  // const updateChartData = () => {
-  // newChartData.push(Math.random());
-  // setChartData((prevValue) => [ ...prevValue, Math.random() ])
-  // const newChartData = [...chartData];
-  // setChartData((prevValue) => [ ...prevValue, Math.random() ])
-  // }
+  socket.emit('join_room', room)
+
+  const sendMessage = () => {
+    socket.emit('send_message', { message, room })
+    setMessage('')
+  }
 
   useEffect(() => {
-    const step = 0.1
-    const n = 5
-    const seq = [ ...Array(Math.floor(n / step) + 1).keys() ].map((x) => {
-      return {
-        name: Math.random().toString(36),
-        value: parseFloat((x * step).toFixed(1))
-      }
+    console.log('socket', socket)
+    socket.on('receive_message', (data) => {
+      setMessageReceived((prev) => [ ...prev, data.message ])
     })
-    setChartData(seq)
-    console.log('seq', seq)
 
-    // const intervalId = setInterval(updateChartData, 1000);
-    // console.log('intervalId', intervalId)
-    // return () => clearInterval(intervalId);
+    socket.on('counter', (data) => {
+      console.log(data)
+      setCounter(data)
+    })
   }, [])
 
-  const MovingObject = ({ x, y, value }) => (
-      <text x={x} y={y} textAnchor="middle">
-        {value}
-      </text>
-  )
-
-  const [ movingObject, setMovingObject ] = useState({
-    name: 'Jun',
-    value: 0
-  })
-
-  const handleMouseMove = (event) => {
-    const mouseX = event.chartX
-    const xScale = event.activeLabelProps.scale.x
-    const xValue = xScale.invert(mouseX)
-
-    setMovingObject({
-      name: xValue,
-      value: Math.floor(Math.random() * 100)
-    })
-  }
-
-  const renderImage = (props) => {
-    return (
-        <image
-            className="plan"
-            x={30}
-            y={580}
-            width={150}
-            height={74}
-            href={Plan1}
-        />
-    )
-  }
-
   return (
-      <>
-        {/*<img src="./assets/images/plane-1.svg" alt=""/>*/}
-        <ResponsiveContainer width={800} height={800}>
-          <AreaChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3"/>
-            {/*<Animation duration={1000}/>*/}
-            <Area type="monotone" dataKey="value" animationDuration={15000} stroke="#e50539" fill="#e50539"/>
-            {/*<ForeignObject x="50%" y="50%" width="200" height="200">*/}
-            {/*  <div xmlns="http://www.w3.org/1999/xhtml">*/}
-            {/*    <h1>Hello world</h1>*/}
-            {/*  </div>*/}
-            {/*</ForeignObject>*/}
-            <Customized component={renderImage}/>
-            {/*<Customized component={<h1 className="bg_glow">hello</h1>}/>*/}
-          </AreaChart>
-        </ResponsiveContainer>
+      <div className="App" style={{ flexDirection: 'column', padding: '10px' }}>
+        <h1> counter : {counter}</h1>
+        <h1> connected to room : {socket.id}</h1>
+        <input
+            placeholder="Message..."
+            value={message}
+            onChange={(event) => {
+              setMessage(event.target.value)
+            }}
+            onKeyPress={(event) => {
+              if ([ 'Enter', 'NumpadEnter' ].includes(event.code)) return sendMessage()
+            }}
+        />
 
-        <div className="glow">
-          <span className="bg_glow">123</span>
+        <div>
+          <h1> Message:</h1>
+          {messageReceived.map((msg, index) => <h4 key={index}>{msg}</h4>)}
         </div>
-
-        {/* <LineChart width={1800} height={800} data={chartData} onMouseMove={handleMouseMove}>*/}
-        {/*   <CartesianGrid strokeDasharray="3 3" />*/}
-        {/*   <XAxis dataKey="name" />*/}
-        {/*   <YAxis />*/}
-        {/*   <Line animationDuration={5000} type="monotone" dataKey="value" stroke="#8884d8" />*/}
-        {/*   <Label*/}
-        {/*       content={<MovingObject value={movingObject.value} />}*/}
-        {/*       position="top"*/}
-        {/*       offset={10}*/}
-        {/*       render={({ viewBox }) => (*/}
-        {/*           <MovingObject*/}
-        {/*               x={viewBox.x + (viewBox.width / (chartData.length - 1)) * chartData.findIndex((d) => d.name === movingObject.name)}*/}
-        {/*               y={viewBox.y}*/}
-        {/*               value={movingObject.value}*/}
-        {/*           />*/}
-        {/*       )}*/}
-        {/*   />*/}
-        {/* </LineChart>*/}
-
-        {/* <LineChart width={500} height={300} data={chartData}>*/}
-        {/*   <Line type="monotone" dataKey="value" stroke="#8884d8" />*/}
-        {/*   <CartesianGrid stroke="#ccc" />*/}
-        {/*   <XAxis dataKey="name" />*/}
-        {/*   <YAxis />*/}
-        {/*   <Customized component={renderImage} />*/}
-        {/* </LineChart>*/}
-      </>
+      </div>
   )
 }
 
