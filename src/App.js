@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './App.css'
 import { Area, AreaChart, CartesianGrid, Customized, ResponsiveContainer } from 'recharts'
 import Plan1 from './assets/images/plane-1.svg'
+import Board from './components/Board'
 
 function App() {
   const [ chartData, setChartData ] = useState([])
@@ -23,7 +24,6 @@ function App() {
       }
     })
     setChartData(seq)
-    console.log('seq', seq)
 
     // const intervalId = setInterval(updateChartData, 1000);
     // console.log('intervalId', intervalId)
@@ -52,40 +52,24 @@ function App() {
     })
   }
 
-  const renderImage = (props) => {
-    return (
-        <image
-            className="plan"
-            x={30}
-            y={580}
-            width={150}
-            height={74}
-            href={Plan1}
-        />
-    )
-  }
-
   return (
       <>
-        {/*<img src="./assets/images/plane-1.svg" alt=""/>*/}
-        <ResponsiveContainer width={800} height={800}>
-          <AreaChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3"/>
-            {/*<Animation duration={1000}/>*/}
-            <Area type="monotone" dataKey="value" animationDuration={15000} stroke="#e50539" fill="#e50539"/>
-            {/*<ForeignObject x="50%" y="50%" width="200" height="200">*/}
-            {/*  <div xmlns="http://www.w3.org/1999/xhtml">*/}
-            {/*    <h1>Hello world</h1>*/}
-            {/*  </div>*/}
-            {/*</ForeignObject>*/}
-            <Customized component={renderImage}/>
-            {/*<Customized component={<h1 className="bg_glow">hello</h1>}/>*/}
-          </AreaChart>
-        </ResponsiveContainer>
+        <Board/>
 
-        <div className="glow">
-          <span className="bg_glow">123</span>
-        </div>
+        {/*<img src="./assets/images/plane-1.svg" alt=""/>*/}
+
+        {/*<ResponsiveContainer width={800} height={800}>*/}
+        {/*  <AreaChart data={chartData}>*/}
+        {/*    <CartesianGrid strokeDasharray="3 3"/>*/}
+        {/*    /!* animationEasing 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out' | 'linear' *!/*/}
+        {/*    <Area className="relative" type="monotone" dataKey="value" animationDuration={15000} stroke="#e50539" fill="#e50539"/>*/}
+        {/*    <Customized component={() => <image className="plan" x={10} y={20} width={150} height={74} href={Plan1}/>}/>*/}
+        {/*  </AreaChart>*/}
+        {/*</ResponsiveContainer>*/}
+
+        {/*<div className="glow">*/}
+        {/*  <span className="bg_glow">123</span>*/}
+        {/*</div>*/}
 
         {/* <LineChart width={1800} height={800} data={chartData} onMouseMove={handleMouseMove}>*/}
         {/*   <CartesianGrid strokeDasharray="3 3" />*/}
