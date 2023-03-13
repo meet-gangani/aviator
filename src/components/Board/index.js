@@ -11,10 +11,10 @@ const Board = () => {
     src: [ BackGround ]
   })
 
-  const startSound = () => {
-    sound.play()
-    // console.log('startSound => startSound :: ', sound)
-  }
+  // const startSound = () => {
+  //   sound.play()
+  //   // console.log('startSound => startSound :: ', sound)
+  // }
 
   const stopSound = () => {
     sound.stop()
