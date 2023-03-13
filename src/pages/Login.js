@@ -12,9 +12,8 @@ const Login = () => {
     e.preventDefault()
 
     function onRegister() {
-      signInWithEmailAndPassword(auth, email, password).catch((error) =>
-          console.log(error)
-      )
+      signInWithEmailAndPassword(auth, email, password).catch((error) => console.log(error))
+
       navigate('/')
     }
 

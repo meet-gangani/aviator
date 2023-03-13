@@ -1,27 +1,30 @@
-import React, { useEffect, useState } from 'react'
 import './App.css'
+import React, { useEffect, useState } from 'react'
+import io from 'socket.io-client'
+
+const socket = io.connect('http://localhost:8080')
 import { Area, AreaChart, CartesianGrid, Customized, ResponsiveContainer } from 'recharts'
 import Plan1 from './assets/images/plane-1.svg'
 import Board from './components/Board'
 
 function App() {
-  const [ chartData, setChartData ] = useState([])
+  // Messages States
+  const room = '45189564'
+  const [ counter, setCounter ] = useState(0)
+  const [ message, setMessage ] = useState('')
+  const [ messageReceived, setMessageReceived ] = useState([])
 
-  // const updateChartData = () => {
-  // newChartData.push(Math.random());
-  // setChartData((prevValue) => [ ...prevValue, Math.random() ])
-  // const newChartData = [...chartData];
-  // setChartData((prevValue) => [ ...prevValue, Math.random() ])
-  // }
+  socket.emit('join_room', room)
+
+  const sendMessage = () => {
+    socket.emit('send_message', { message, room })
+    setMessage('')
+  }
 
   useEffect(() => {
-    const step = 0.1
-    const n = 5
-    const seq = [ ...Array(Math.floor(n / step) + 1).keys() ].map((x) => {
-      return {
-        name: Math.random().toString(36),
-        value: parseFloat((x * step).toFixed(1))
-      }
+    console.log('socket', socket)
+    socket.on('receive_message', (data) => {
+      setMessageReceived((prev) => [ ...prev, data.message ])
     })
     setChartData(seq)
 
@@ -41,15 +44,33 @@ function App() {
     value: 0
   })
 
-  const handleMouseMove = (event) => {
-    const mouseX = event.chartX
-    const xScale = event.activeLabelProps.scale.x
-    const xValue = xScale.invert(mouseX)
-
-    setMovingObject({
-      name: xValue,
-      value: Math.floor(Math.random() * 100)
+    socket.on('counter', (data) => {
+      console.log(data)
+      setCounter(data)
     })
+  }, [])
+
+  return (
+      <div className="App" style={{ flexDirection: 'column', padding: '10px' }}>
+        <h1> counter : {counter}</h1>
+        <h1> connected to room : {socket.id}</h1>
+        <input
+            placeholder="Message..."
+            value={message}
+            onChange={(event) => {
+              setMessage(event.target.value)
+            }}
+            onKeyPress={(event) => {
+              if ([ 'Enter', 'NumpadEnter' ].includes(event.code)) return sendMessage()
+            }}
+        />
+
+        <div>
+          <h1> Message:</h1>
+          {messageReceived.map((msg, index) => <h4 key={index}>{msg}</h4>)}
+        </div>
+      </div>
+
   }
 
   return (

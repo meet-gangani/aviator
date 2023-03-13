@@ -4,6 +4,8 @@ const express = require('express')
 const app = express()
 const routes = require('./routes')
 const mongodb = require('./mongodb-config')
+const http = require('http')
+const Socket = require('./socket/socket')
 
 const initialize = async () => {
   await mongodb.initializeDb()
@@ -13,7 +15,13 @@ const initialize = async () => {
 
   app.use('/', routes)
 
-  app.listen(constants.PORT, () => console.log(`Listening on port ${constants.PORT}`))
+  const server = http.createServer(app)
+
+  Socket.initialize(server)
+
+  server.listen(constants.PORT, () => {
+    console.log('SERVER IS RUNNING')
+  })
 }
 
 initialize()
